@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<head>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<label for="country">Select a country</label>
+<form action="/graph" method="post">
+  <select name="Country" id="Country">
+    {% for country in countrylist %}
+      <option value={{country['CountryCode']}}>{{country['ShortName']}}</option>
+    {% endfor %}
+  </select>
+  <input type="submit" value="SUBMIT">
+</form>
+<div id="chart" class="chart"></div>
+
+<script src="/static/js/plotly-latest.min.js"></script>
+<script type="text/javascript">
+    var graphs = {{graphJSON | safe}};
+    Plotly.plot('chart', graphs, {});
+    const CountryCode = document.getElementById("Country");
+    CountryCode.value = "{{CountryCode}}";
+</script>
+{% endblock %}
